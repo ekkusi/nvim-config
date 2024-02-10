@@ -1,3 +1,3 @@
 require("ekkusi.remap")
-require("ekkusi.lazy")
+require("ekkusi.lazy-init")
 print("Hello from ekkusi")
