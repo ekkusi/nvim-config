@@ -55,7 +55,6 @@ require('lazy').setup({
     evet = "VeryLazy",
   },
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   -- {
   --   -- LSP Configuration & Plugins
@@ -263,5 +262,8 @@ require('lazy').setup({
     branch = 'harpoon2',
     dependencies = { "nvim-lua/plenary.nvim" }
   },
+
   'mbbill/undotree',
+  'nvim-tree/nvim-tree.lua',
+  'nvim-tree/nvim-web-devicons'
 }, {})
