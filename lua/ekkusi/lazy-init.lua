@@ -30,7 +30,7 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- LSP Config (by Primeagen)
+  -- LSP Config (by Configure nvimtreePrimeagen)
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
@@ -265,5 +265,17 @@ require('lazy').setup({
 
   'mbbill/undotree',
   'nvim-tree/nvim-tree.lua',
-  'nvim-tree/nvim-web-devicons'
+  'nvim-tree/nvim-web-devicons',
+
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+    },
+  },
+
+  'github/copilot.vim',
 }, {})
