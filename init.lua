@@ -48,10 +48,23 @@ require("ekkusi")
 -- NOTE: You can change these options as you wish!
 
 -- Set highlight on search
-vim.o.hlsearch = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
 
 -- Make line numbers default
-vim.wo.number = true
+vim.o.relativenumber = true
+vim.o.nu = true
+
+vim.o.wrap = false
+
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.o.undofile = true
+
+vim.o.scrolloff = 8
+
+vim.o.updatetime = 50
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -64,9 +77,6 @@ vim.o.clipboard = 'unnamedplus'
 -- Enable break indent
 vim.o.breakindent = true
 
--- Save undo history
-vim.o.undofile = true
-
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -75,7 +85,6 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
@@ -217,10 +226,10 @@ vim.defer_fn(function()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
+        init_selection = '<C-Space>',
+        node_incremental = '<C-Space>',
+        scope_incremental = '<C-s>',
+        node_decremental = '<M-Space>',
       },
     },
     textobjects = {
@@ -257,18 +266,19 @@ vim.defer_fn(function()
           -- ['[]'] = '@class.outer',
         },
       },
-     swap = {
-        enable = true,
-        swap_next = {
-         ['<leader>s'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>S'] = '@parameter.inner',
-        },
-      },
+     -- swap = {
+     --    enable = true,
+     --    swap_next = {
+     --     ['<leader>s'] = '@parameter.inner',
+     --    },
+     --    swap_previous = {
+     --      ['<leader>S'] = '@parameter.inner',
+     --    },
+     --  },
     },
   }
 end, 0)
+
 
 -- document existing key chains
 require('which-key').register {
@@ -278,18 +288,18 @@ require('which-key').register {
   ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>t'] = { name = '[t]oggle', _ = 'which_key_ignore' },
+  ['<leader>w'] = { name = '[w]orkspace', _ = 'which_key_ignore' },
 }
--- register which-key VISUAL mode
+-- register which-key visual mode
 -- required for visual <leader>hs (hunk stage) to work
 require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
-  ['<leader>h'] = { 'Git [H]unk' },
+  ['<leader>'] = { name = 'visual <leader>' },
+  ['<leader>h'] = { 'git [h]unk' },
 }, { mode = 'v' })
 
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
+-- -- [[ Configure LSP ]]
+-- --  This function gets run when an LSP connects to a particular buffer.
 -- local on_attach = function(bufnr, _)
 --   -- NOTE: Remember that lua is a real programming language, and as such it is possible
 --   -- to define small helper and utility functions so you don't have to repeat yourself
@@ -335,19 +345,18 @@ require('which-key').register({
 --   end, { desc = 'Format current buffer with LSP' })
 -- end
 --
---
 -- -- mason-lspconfig requires that these setup functions are called in this order
 -- -- before setting up the servers.
 -- require('mason').setup()
 -- require('mason-lspconfig').setup()
 --
--- -- Enable the following language servers
--- --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+-- -- enable the following language servers
+-- --  feel free to add/remove any lsps that you want here. they will automatically be installed.
 -- --
--- --  Add any additional override configuration in the following tables. They will be passed to
--- --  the `settings` field of the server config. You must look up that documentation yourself.
+-- --  add any additional override configuration in the following tables. they will be passed to
+-- --  the `settings` field of the server config. you must look up that documentation yourself.
 -- --
--- --  If you want to override the default filetypes that your language server will attach to you can
+-- --  if you want to override the default filetypes that your language server will attach to you can
 -- --  define the property 'filetypes' to the map in question.
 -- local servers = {
 --   -- clangd = {},
@@ -358,23 +367,23 @@ require('which-key').register({
 --   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 --
 --   lua_ls = {
---     Lua = {
---       workspace = { checkThirdParty = false },
+--     lua = {
+--       workspace = { checkthirdparty = false },
 --       telemetry = { enable = false },
---       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+--       -- note: toggle below to ignore lua_ls's noisy `missing-fields` warnings
 --       -- diagnostics = { disable = { 'missing-fields' } },
 --     },
 --   },
 -- }
 --
--- -- Setup neovim lua configuration
+-- -- setup neovim lua configuration
 -- require('neodev').setup()
 --
 -- -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 --
--- -- Ensure the servers above are installed
+-- -- ensure the servers above are installed
 -- local mason_lspconfig = require 'mason-lspconfig'
 --
 -- mason_lspconfig.setup {
@@ -392,8 +401,8 @@ require('which-key').register({
 --   end,
 -- }
 --
--- -- [[ Configure nvim-cmp ]]
--- -- See `:help cmp`
+-- -- [[ configure nvim-cmp ]]
+-- -- see `:help cmp`
 -- local cmp = require 'cmp'
 -- local luasnip = require 'luasnip'
 -- require('luasnip.loaders.from_vscode').lazy_load()
@@ -409,16 +418,16 @@ require('which-key').register({
 --     completeopt = 'menu,menuone,noinsert',
 --   },
 --   mapping = cmp.mapping.preset.insert {
---     ['<C-n>'] = cmp.mapping.select_next_item(),
---     ['<C-N>'] = cmp.mapping.select_prev_item(),
---     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
---     ['<C-f>'] = cmp.mapping.scroll_docs(4),
---     ['<C-Space>'] = cmp.mapping.complete {},
---     ['<CR>'] = cmp.mapping.confirm {
---       behavior = cmp.ConfirmBehavior.Replace,
+--     ['<c-n>'] = cmp.mapping.select_next_item(),
+--     ['<c-n>'] = cmp.mapping.select_prev_item(),
+--     ['<c-b>'] = cmp.mapping.scroll_docs(-4),
+--     ['<c-f>'] = cmp.mapping.scroll_docs(4),
+--     ['<c-space>'] = cmp.mapping.complete {},
+--     ['<cr>'] = cmp.mapping.confirm {
+--       behavior = cmp.confirmbehavior.replace,
 --       select = true,
 --     },
---     ['<Tab>'] = cmp.mapping(function(fallback)
+--     ['<tab>'] = cmp.mapping(function(fallback)
 --       if cmp.visible() then
 --         cmp.select_next_item()
 --       elseif luasnip.expand_or_locally_jumpable() then
@@ -427,7 +436,7 @@ require('which-key').register({
 --         fallback()
 --       end
 --     end, { 'i', 's' }),
---     ['<S-Tab>'] = cmp.mapping(function(fallback)
+--     ['<s-tab>'] = cmp.mapping(function(fallback)
 --       if cmp.visible() then
 --         cmp.select_prev_item()
 --       elseif luasnip.locally_jumpable(-1) then

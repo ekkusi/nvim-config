@@ -32,7 +32,7 @@ require('lazy').setup({
 
   -- LSP Config (by Primeagen)
   {
-    'VonHeikemen/lsp-zero.nvim', 
+    'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -49,6 +49,11 @@ require('lazy').setup({
     },
   },
 
+
+  {
+    "nvimtools/none-ls.nvim",
+    evet = "VeryLazy",
+  },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.

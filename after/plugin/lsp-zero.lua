@@ -37,6 +37,10 @@ local cmp_select = {behavior = cmp.SelectBehavior.Select}
 require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
+  completion = {
+    completeopt = 'menu, menuone, noinsert',
+    preselect = cmp.PreselectMode.Item,
+  },
   sources = {
     {name = 'path'},
     {name = 'nvim_lsp'},
@@ -48,7 +52,38 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
+
+-- lsp_zero.setup('efm', {
+--     init_options = {documentFormatting = true},
+--     filetypes = {'typescript', 'typescriptreact'},
+--     settings = {
+--         rootMarkers = {".git/"},
+--         languages = {
+--             typescript = {
+--                 {
+--                     lintCommand = "eslint -f unix --stdin --stdin-filename ${INPUT}",
+--                     lintStdin = true,
+--                     lintFormats = {"%f:%l:%c: %m"},
+--                     lintIgnoreExitCode = true,
+--                     formatCommand = "eslint --fix --stdin --stdin-filename=${INPUT}",
+--                     formatStdin = true
+--                 }
+--             },
+--             typescriptreact = {
+--                 {
+--                     lintCommand = "eslint -f unix --stdin --stdin-filename ${INPUT}",
+--                     lintStdin = true,
+--                     lintFormats = {"%f:%l:%c: %m"},
+--                     lintIgnoreExitCode = true,
+--                     formatCommand = "eslint --fix --stdin --stdin-filename=${INPUT}",
+--                     formatStdi = true
+--                 }
+--             },
+--         },
+--     },
+-- })
+
