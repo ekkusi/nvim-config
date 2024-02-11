@@ -167,19 +167,30 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   -- Theme inspired by Atom
+  --   'navarasu/onedark.nvim',
+  --   priority = 1000,
+  --   lazy = false,
+  --   config = function()
+  --     require('onedark').setup {
+  --       -- Set a style preset. 'dark' is default.
+  --       style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
+  --     }
+  --     require('onedark').load()
+  --   end,
+  -- },
+
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
-    lazy = false,
     config = function()
-      require('onedark').setup {
-        -- Set a style preset. 'dark' is default.
-        style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-      }
-      require('onedark').load()
+      require('catppuccin').setup({ flavour = "mocha" })
+      vim.cmd.colorscheme "catppuccin"
     end,
   },
+
 
   {
     -- Set lualine as statusline
@@ -278,4 +289,5 @@ require('lazy').setup({
   },
 
   'github/copilot.vim',
+  -- 'christoomey/vim-tmux-navigator',
 }, {})
