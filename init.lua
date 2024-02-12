@@ -128,6 +128,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- Function to close any floating window
+function CloseHover()
+    -- Get the current buffer's floating windows
+    local floating_wins = vim.api.nvim_list_wins()
+    for _, win in ipairs(floating_wins) do
+        local config = vim.api.nvim_win_get_config(win)
+        if config.relative ~= "" then -- Checks if the window is a floating window
+            vim.api.nvim_win_close(win, false)
+            return -- Close the first floating window found and exit
+        end
+    end
+end
+
+-- Keymap for closing floating windows with Esc
+vim.api.nvim_set_keymap('n', '<Esc>', '<cmd>lua CloseHover()<CR>', {noremap = true, silent = true})
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -139,10 +155,17 @@ require('telescope').setup {
       },
     },
   },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+      },
+    }
+  },
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'ui-select')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -245,6 +268,7 @@ vim.defer_fn(function()
         enable = true,
         lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
         keymaps = {
+
           -- You can use the capture groups defined in textobjects.scm
           ['aa'] = '@parameter.outer',
           ['ia'] = '@parameter.inner',
@@ -305,6 +329,28 @@ require('which-key').register({
   ['<leader>'] = { name = 'visual <leader>' },
   ['<leader>h'] = { 'git [h]unk' },
 }, { mode = 'v' })
+
+
+-- Unbnd tmux <C-Space> in insert mode
+-- vim.api.nvim_create_autocmd("InsertEnter", {
+--   pattern = "*",
+--   callback = function()
+--     if vim.env.TMUX then
+--       print("Unbinding C-Space")
+--       vim.fn.system("tmux unbind C-Space")
+--     end
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("InsertLeave", {
+--   pattern = "*",
+--   callback = function()
+--     if vim.env.TMUX then
+--       print("Binding C-Space")
+--       vim.fn.system("tmux bind C-Space send-prefix")
+--     end
+--   end,
+-- })
 
 -- -- [[ Configure LSP ]]
 -- --  This function gets run when an LSP connects to a particular buffer.
