@@ -49,6 +49,16 @@ require('lazy').setup({
     },
   },
 
+  {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.2", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+    },
+
+  },
+
 
   {
     "nvimtools/none-ls.nvim",
@@ -181,13 +191,22 @@ require('lazy').setup({
   --   end,
   -- },
 
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     require('catppuccin').setup({ flavour = "mocha" })
+  --     vim.cmd.colorscheme "catppuccin"
+  --   end,
+  -- },
+
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    'Mofiqul/vscode.nvim',
     priority = 1000,
     config = function()
-      require('catppuccin').setup({ flavour = "mocha" })
-      vim.cmd.colorscheme "catppuccin"
+      require('vscode').setup()
+      require('vscode').load()
     end,
   },
 
@@ -215,6 +234,7 @@ require('lazy').setup({
     opts = {},
   },
 
+  'JoosepAlviste/nvim-ts-context-commentstring',
   -- "gc" to comment visual regions/lines
   {
     'numToStr/Comment.nvim',
@@ -290,5 +310,20 @@ require('lazy').setup({
   },
 
   'github/copilot.vim',
-  -- 'christoomey/vim-tmux-navigator',
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-tree.lua",
+    },
+    config = function()
+      require("lsp-file-operations").setup()
+    end,
+  },
+  {
+    "nvim-pack/nvim-spectre",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
 }, {})

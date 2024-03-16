@@ -77,10 +77,11 @@ local function on_attach(bufnr)
 
 end
 
-vim.keymap.set('n', '<leader>t', function() require('nvim-tree.api').tree.toggle() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>t', function() require('nvim-tree.api').tree.toggle() end, { noremap = true, silent = true, desc = 'Toggle nvim-tree' })
 -- vim.keymap.del('n', '<C-e')
---
+vim.keymap.set('n', '<leader>T', function() require('nvim-tree.api').tree.find_file({ open = true, focus = true }) end, { noremap= true, silent = true, desc = 'Toggle nvim-tree and focus on current file' })
 
+vim.g.nvim_tree_respect_buf_cwd = 1
 
 -- pass to setup along with your other options
 require("nvim-tree").setup {

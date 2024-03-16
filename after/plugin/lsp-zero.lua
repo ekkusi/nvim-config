@@ -6,10 +6,12 @@ lsp_zero.on_attach(function(client, bufnr)
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  -- Diagnostic keymaps
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
   vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
@@ -33,75 +35,36 @@ lsp_zero.on_attach(function(client, bufnr)
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 end)
 
+local lspconfig = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'tsserver', 'rust_analyzer'},
+  ensure_installed = {
+    'tsserver',
+    'tailwindcss',
+    'eslint',
+    'dockerls',
+    'graphql',
+    'lua_ls',
+    'prismals'
+  },
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
       require('lspconfig').lua_ls.setup(lua_opts)
     end,
+    eslint = function()
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+        flags = { debounce_text_changes = 500 },
+        on_attach = function(client)
+          client.server_capabilities.documentFormattingProvider = true
+        end,
+      })
+    end,
   }
 })
-
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-
--- this is the function that loads the extra snippets to luasnip
--- from rafamadriz/friendly-snippets
-require('luasnip.loaders.from_vscode').lazy_load()
-
-cmp.setup({
-  completion = {
-    completeopt = 'menu, menuone, noinsert',
-    preselect = cmp.PreselectMode.Item,
-  },
-  sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'nvim_lua'},
-    {name = 'luasnip', keyword_length = 2},
-    {name = 'buffer', keyword_length = 3},
-  },
-  formatting = lsp_zero.cmp_format(),
-  mapping = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-Space>'] = cmp.mapping.complete(),
-  }),
-})
-
--- lsp_zero.setup('efm', {
---     init_options = {documentFormatting = true},
---     filetypes = {'typescript', 'typescriptreact'},
---     settings = {
---         rootMarkers = {".git/"},
---         languages = {
---             typescript = {
---                 {
---                     lintCommand = "eslint -f unix --stdin --stdin-filename ${INPUT}",
---                     lintStdin = true,
---                     lintFormats = {"%f:%l:%c: %m"},
---                     lintIgnoreExitCode = true,
---                     formatCommand = "eslint --fix --stdin --stdin-filename=${INPUT}",
---                     formatStdin = true
---                 }
---             },
---             typescriptreact = {
---                 {
---                     lintCommand = "eslint -f unix --stdin --stdin-filename ${INPUT}",
---                     lintStdin = true,
---                     lintFormats = {"%f:%l:%c: %m"},
---                     lintIgnoreExitCode = true,
---                     formatCommand = "eslint --fix --stdin --stdin-filename=${INPUT}",
---                     formatStdi = true
---                 }
---             },
---         },
---     },
--- })
 
