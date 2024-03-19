@@ -4,6 +4,7 @@ local null_ls = require("null-ls")
 local opts = {
   sources = {
     null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.stylua,
   },
   on_attach = function(client, bufnr)
     if client.supports_method("textDocument/formatting") then
@@ -32,7 +33,7 @@ local opts = {
         end,
       })
     end
-    end,
+  end,
 }
 
 null_ls.setup(opts)
