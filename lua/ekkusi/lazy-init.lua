@@ -58,10 +58,24 @@ require("lazy").setup({
     },
   },
 
+  -- {
+  --   "nvimtools/none-ls.nvim",
+  --   event = "VeryLazy",
+  --   -- dependencies = {
+  --   --   "nvimtools/none-ls-extras.nvim",
+  --   -- },
+  -- },
+
   {
-    "nvimtools/none-ls.nvim",
-    evet = "VeryLazy",
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
   },
+
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   lazy = true,
+  --   event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+  -- },
 
   -- Useful plugin to show you pending keybinds.
   { "folke/which-key.nvim", opts = {} },
